@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asset_asset_user,asset.asset.user,model_asset_asset,base.group_user,1,1,1,1
+access_asset_maintenance_user,asset.maintenance.user,model_asset_maintenance,base.group_user,1,1,1,1

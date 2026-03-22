@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_muon_tra_form" model="ir.ui.view">
+            <field name="name">muon_tra</field>
+            <field name="model">muon_tra</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Bảng đăng kí mượn trả</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="ma_tai_san"/>
+                            <field name="ngay_muon_du_kien"/>
+                            <field name="ngay_tra_du_kien"/>
+                            <field name="ngay_muon_thuc_te"/>
+                            <field name="ngay_tra_thuc_te"/>
+                            <field name="trang_thai"/>
+                            <field name="nguoi_tra"/>
+                            <field name="nguoi_kiem_duyet"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="nguoi_xac_nhan"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_muon_tra_tree" model="ir.ui.view">
+            <field name="name">muon_tra</field>
+            <field name="model">muon_tra</field>
+            <field name="arch" type="xml">
+                <tree string="Tình trạng" decoration-success="trang_thai == 'gia_han_them'"
+                                    decoration-info="trang_thai == 'dang_muon'"
+                                    decoration-primary="trang_thai == 'tra_luon'"  >
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_muon_du_kien"/>
+                            <field name="ngay_tra_du_kien"/>
+                            <field name="ngay_muon_thuc_te"/>
+                            <field name="ngay_tra_thuc_te"/>
+                            <field name="trang_thai"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="nguoi_tra"/>
+                            <field name="nguoi_kiem_duyet"/>
+                            <field name="nguoi_xac_nhan"/>
+                </tree>
+            </field>
+        </record>
+        <record id="muon_tra_graph_view" model="ir.ui.view">
+            <field name="name">muon_tra</field>
+            <field name="model">muon_tra</field>
+            <field name="arch" type="xml">
+                <graph string="Dữ liệu tài sản" sample="1">
+                    <field name="trang_thai" />
+                    <field name="ma_tai_san" invisible="1"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="muon_tra_search">
+            <field name="model">muon_tra</field>
+            <field name="arch" type="xml">
+                <search>
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_muon_du_kien"/>
+                            <field name="ngay_tra_du_kien"/>
+                            <field name="ngay_muon_thuc_te"/>
+                            <field name="ngay_tra_thuc_te"/>
+                            <field name="trang_thai"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="nguoi_tra"/>
+                            <field name="nguoi_kiem_duyet"/>
+                            <field name="nguoi_xac_nhan"/>
+                            <searchpanel>
+                                <field name="ma_tai_san" select="multi"/>
+                                <field name="nhan_vien_id" select="multi"/>
+                                <field name="nguoi_xac_nhan" select="multi"/>
+                            </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_muon_tra" model="ir.actions.act_window">
+            <field name="name">Bảng đăng kí mượn trả</field>
+            <field name="res_model">muon_tra</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="search_view_id" ref = "muon_tra_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    

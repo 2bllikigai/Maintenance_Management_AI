@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem
+            id="menu_root"
+            name="QLTS"
+            sequence="0"/>
+        
+        <menuitem name="Người thụ hưởng" 
+            id="menu_nhan_vat" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_nhan_vat"
+        />
+        <menuitem name="Quản lý phương tiện" 
+            id="menu_phuong_tien" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_phuong_tien"
+        />
+        <menuitem name="Quản lý nhà ở" 
+            id="menu_nha_o" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_nha_o"
+        />
+        <menuitem name="Quản lý mảnh đất" 
+            id="menu_manh_dat" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_manh_dat"
+        />
+        <menuitem name="Quản lý thu nhập" 
+            id="menu_thu_nhap" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_thu_nhap"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ghi_nhan_danh_gia_tai_san_form" model="ir.ui.view">
+            <field name="name">ghi_nhan_danh_gia_tai_san</field>
+            <field name="model">ghi_nhan_danh_gia_tai_san</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Ghi nhận đánh giá tài sản</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="ma_tai_san"/>
+                            <field name="ngay_ghi_nhan"/>
+                            <field name="gia_tri_hien_tai"/>
+                            <field name="khau_hao"/>
+                            <field name="ghi_chu"/>
+                            <field name="nhan_vien_id"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ghi_nhan_danh_gia_tai_san_tree" model="ir.ui.view">
+            <field name="name">ghi_nhan_danh_gia_tai_san</field>
+            <field name="model">ghi_nhan_danh_gia_tai_san</field>
+            <field name="arch" type="xml">
+                <tree>
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_ghi_nhan"/>
+                            <field name="gia_tri_hien_tai"/>
+                            <field name="khau_hao"/>
+                            <field name="ghi_chu"/>
+                            <field name="nhan_vien_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="ghi_nhan_danh_gia_tai_san_graph_view" model="ir.ui.view">
+            <field name="name">ghi_nhan_danh_gia_tai_san</field>
+            <field name="model">ghi_nhan_danh_gia_tai_san</field>
+            <field name="arch" type="xml">
+                <graph string="Dữ liệu tài sản" sample="1">
+                    <field name="gia_tri_hien_tai" />
+                    <field name="khau_hao" />
+                    <field name="ma_tai_san" invisible="1"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ghi_nhan_danh_gia_tai_san_search">
+            <field name="model">ghi_nhan_danh_gia_tai_san</field>
+            <field name="arch" type="xml">
+                <search>
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_ghi_nhan"/>
+                            <field name="gia_tri_hien_tai"/>
+                            <field name="khau_hao"/>
+                            <field name="ghi_chu"/>
+                            <field name="nhan_vien_id"/>
+                            <searchpanel>
+                                <field name="ma_tai_san" select="multi"/>
+                                <field name="nhan_vien_id" select="multi"/>
+                            </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ghi_nhan_danh_gia_tai_san" model="ir.actions.act_window">
+            <field name="name">Ghi nhận đánh giá tài sản</field>
+            <field name="res_model">ghi_nhan_danh_gia_tai_san</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="search_view_id" ref = "ghi_nhan_danh_gia_tai_san_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    

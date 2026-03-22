@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nhan_vat,nhan_vat.nhan_vat,model_nhan_vat,base.group_user,1,1,1,1
+access_phuong_tien,phuong_tien.phuong_tien,model_phuong_tien,base.group_user,1,1,1,1
+access_nha_o,nha_o.nha_o,model_nha_o,base.group_user,1,1,1,1
+access_manh_dat,manh_dat.manh_dat,model_manh_dat,base.group_user,1,1,1,1
+access_thu_nhap,thu_nhap.thu_nhap,model_thu_nhap,base.group_user,1,1,1,1

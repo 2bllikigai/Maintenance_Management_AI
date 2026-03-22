@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_quan_ly_bang_cap_form" model="ir.ui.view">
+            <field name="name">quan_ly_bang_cap</field>
+            <field name="model">quan_ly_bang_cap</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Quản lý bằng cấp</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="nhan_vien_id"/>
+                            <field name="bang_cap_id"/>
+                            <field name="khac"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_quan_ly_bang_cap_tree" model="ir.ui.view">
+            <field name="name">quan_ly_bang_cap</field>
+            <field name="model">quan_ly_bang_cap</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nhan_vien_id"/>
+                    <field name="bang_cap_id"/>
+                    <field name="khac"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="quan_ly_bang_cap_search">
+            <field name="model">quan_ly_bang_cap</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nhan_vien_id"/>
+                    <field name="bang_cap_id"/>
+                    <field name="khac"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_quan_ly_bang_cap" model="ir.actions.act_window">
+            <field name="name">Quản lý bằng cấp</field>
+            <field name="res_model">quan_ly_bang_cap</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref = "quan_ly_bang_cap_search"/>
+        </record>
+    </data>
+</odoo>
+        
+    

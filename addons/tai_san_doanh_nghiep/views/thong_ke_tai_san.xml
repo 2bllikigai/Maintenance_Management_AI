@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_thong_ke_tai_san_form" model="ir.ui.view">
+            <field name="name">thong_ke_tai_san</field>
+            <field name="model">thong_ke_tai_san</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Thống kê tài sản</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="ma_tai_san"/>
+                            <field name="ma_tai_san"/>
+                            <field name="so_luong_muon"/>
+                            <field name="so_luong_tai_san"/>
+                            <field name="so_luong_thuc_te"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_thong_ke_tai_san_tree" model="ir.ui.view">
+            <field name="name">thong_ke_tai_san</field>
+            <field name="model">thong_ke_tai_san</field>
+            <field name="arch" type="xml">
+                <tree>
+                            <field name="so_luong_muon"/>
+                            <field name="so_luong_tai_san"/>
+                            <field name="so_luong_thuc_te"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="thong_ke_tai_san_search">
+            <field name="model">thong_ke_tai_san</field>
+            <field name="arch" type="xml">
+                <search>
+                            <field name="ma_tai_san"/>
+                            <field name="ma_tai_san"/>
+                            <field name="so_luong_muon"/>
+                            <field name="so_luong_tai_san"/>
+                            <field name="so_luong_thuc_te"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_thong_ke_tai_san" model="ir.actions.act_window">
+            <field name="name">Thống kê tài sản</field>
+            <field name="res_model">thong_ke_tai_san</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="search_view_id" ref = "thong_ke_tai_san_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    

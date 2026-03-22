@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_nhan_vat_form" model="ir.ui.view">
+            <field name="name">nhan_vat</field>
+            <field name="model">nhan_vat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Người thụ hưởng</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="id_nhan_vat"/>
+                            <field name="ho_va_ten"/>
+                            <field name="so_dien_thoai"/>
+                            <field name="nam_sinh"/>
+                            <field name="dia_chi"/>
+                            <field name="anh"/>
+
+                        </group>
+                        <notebook>
+                            <page string="Danh sách loại xe">
+                                <field name="phuong_tien"/>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="Danh sách tình trạng nhà">
+                                <field name="nha_o"/>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="Danh sách tình trạng đất">
+                                <field name="manh_dat"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_nhan_vat_tree" model="ir.ui.view">
+            <field name="name">nhan_vat</field>
+            <field name="model">nhan_vat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_nhan_vat"/>
+                    <field name="ho_va_ten"/>
+                    <field name="so_dien_thoai"/>
+                    <field name="nam_sinh"/>
+                    <field name="dia_chi"/>
+                    <field name="anh"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="nhan_vat_search">
+            <field name="model">nhan_vat</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="id_nhan_vat"/>
+                    <field name="ho_va_ten"/>
+                    <field name="so_dien_thoai"/>
+                    <field name="nam_sinh"/>
+                    <field name="dia_chi"/>
+                    <field name="anh"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_nhan_vat" model="ir.actions.act_window">
+            <field name="name">Người thụ hưởng</field>
+            <field name="res_model">nhan_vat</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref = "nhan_vat_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    

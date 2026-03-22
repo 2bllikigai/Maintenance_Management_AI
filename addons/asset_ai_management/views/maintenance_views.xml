@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="maintenance_tree" model="ir.ui.view">
+        <field name="name">maintenance.tree</field>
+        <field name="model">asset.maintenance</field>
+        <field name="arch" type="xml">
+            <tree string="Lịch sử bảo trì">
+                <field name="asset_id"/>
+                <field name="maintenance_date"/>
+                <field name="maintenance_type" widget="badge" 
+                       decoration-info="maintenance_type == 'inspection'" 
+                       decoration-warning="maintenance_type == 'repair'"
+                       decoration-success="maintenance_type == 'replacement'"/>
+                <field name="condition_after" widget="badge"
+                       decoration-success="condition_after == 'good'"
+                       decoration-warning="condition_after == 'normal'"
+                       decoration-danger="condition_after == 'bad'"/>
+                <field name="cost" sum="Tổng chi phí"/>
+                <field name="note"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="maintenance_form" model="ir.ui.view">
+        <field name="name">maintenance.form</field>
+        <field name="model">asset.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Chi tiết bảo trì">
+                <sheet>
+                    <group>
+                        <group string="Thông tin tài sản">
+                            <field name="asset_id" options="{'no_create': True}"/>
+                            <field name="maintenance_date"/>
+                            <field name="maintenance_type"/>
+                        </group>
+                        <group string="Kết quả bảo trì">
+                            <field name="cost" widget="monetary"/>
+                            <field name="condition_after"/>
+                        </group>
+                    </group>
+                    <group string="Ghi chú thêm">
+                        <field name="note" placeholder="Mô tả chi tiết..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="maintenance_search" model="ir.ui.view">
+        <field name="name">maintenance.search</field>
+        <field name="model">asset.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm bảo trì">
+                <field name="asset_id"/>
+                <field name="maintenance_type"/>
+                <group expand="0" string="Gom nhóm theo">
+                    <filter string="Tài sản" name="group_by_asset" context="{'group_by':'asset_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="maintenance_action" model="ir.actions.act_window">
+        <field name="name">Maintenance History</field>
+        <field name="res_model">asset.maintenance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có dữ liệu bảo trì.</p>
+        </field>
+    </record>
+
+    <menuitem id="maintenance_menu"
+              name="Lịch sử bảo trì"
+              parent="asset_root_menu"
+              action="maintenance_action"
+              sequence="20"/>
+</odoo>

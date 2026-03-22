@@ -1,0 +1,74 @@
+<odoo>
+    <record id="asset_tree" model="ir.ui.view">
+        <field name="name">asset.tree</field>
+        <field name="model">asset.asset</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="maintenance_warning == True">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="original_value"/>
+                <field name="current_value"/>
+                <field name="predicted_next_maintenance"/>
+                <field name="maintenance_status" widget="badge" 
+                       decoration-success="maintenance_status == 'ready'" 
+                       decoration-warning="maintenance_status == 'maintaining'"
+                       decoration-danger="maintenance_status == 'broken'"/>
+                <field name="maintenance_warning" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="asset_form" model="ir.ui.view">
+        <field name="name">asset.form</field>
+        <field name="model">asset.asset</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Tên tài sản..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Thông tin chung">
+                            <field name="employee_id"/>
+                            <field name="condition"/>
+                            <field name="maintenance_status"/>
+                        </group>
+                        <group string="Giá trị tài sản">
+                            <field name="original_value"/>
+                            <field name="current_value"/>
+                        </group>
+                        <group string="Dự báo AI">
+                            <field name="predicted_next_maintenance"/>
+                            <field name="maintenance_warning" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Lịch sử bảo trì">
+                            <field name="maintenance_ids">
+                                <tree editable="bottom">
+                                    <field name="maintenance_date"/>
+                                    <field name="cost"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="asset_action" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">asset.asset</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="asset_root_menu" name="Asset Management" sequence="10"/>
+    <menuitem id="asset_menu" name="Assets"
+              parent="asset_root_menu"
+              action="asset_action" sequence="10"/>
+</odoo>

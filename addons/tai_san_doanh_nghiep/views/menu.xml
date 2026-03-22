@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem
+            id="menu_root"
+            name="TSDN"
+            sequence="0"/>
+        <menuitem name="Quản lý tài sản" 
+            id="menu_tai_san" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_tai_san"
+        />
+        <menuitem name="Quản lý ghi nhận đánh giá tài sản" 
+            id="menu_ghi_nhan_danh_gia_tai_san" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_ghi_nhan_danh_gia_tai_san"
+        />
+        <menuitem name="Quản lý bảo trì sửa chữa" 
+            id="menu_bao_tri_sua_chua" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_bao_tri_sua_chua"
+        />
+        <menuitem name="Quản lý vị trí tài sản" 
+            id="menu_phan_bo_tai_san" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_phan_bo_tai_san"
+        />
+        <menuitem name="Quản lý rủi ro" 
+            id="menu_quan_ly_rui_ro" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_quan_ly_rui_ro"
+        />
+        <menuitem name="Quản lý mượn trả" 
+            id="menu_quan_ly_muon_tra" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_muon_tra"
+        />
+        <menuitem name="Thống kê tài sản" 
+            id="menu_thong_ke_tai_san" 
+            parent="menu_root" 
+            sequence="1"
+            action="action_thong_ke_tai_san"
+        />
+    </data>
+</odoo>

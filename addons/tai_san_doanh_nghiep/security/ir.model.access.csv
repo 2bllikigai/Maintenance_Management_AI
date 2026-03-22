@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tai_san,tai_san.tai_san,model_tai_san,base.group_user,1,1,1,1
+access_ghi_nhan_danh_gia_tai_san,ghi_nhan_danh_gia_tai_san.ghi_nhan_danh_gia_tai_san,model_ghi_nhan_danh_gia_tai_san,base.group_user,1,1,1,1
+access_bao_tri_sua_chua,bao_tri_sua_chua.bao_tri_sua_chua,model_bao_tri_sua_chua,base.group_user,1,1,1,1
+access_phan_bo_tai_san,phan_bo_tai_san.phan_bo_tai_san,model_phan_bo_tai_san,base.group_user,1,1,1,1
+access_quan_ly_rui_ro,quan_ly_rui_ro.quan_ly_rui_ro,model_quan_ly_rui_ro,base.group_user,1,1,1,1
+access_muon_tra,muon_tra.muon_tra,model_muon_tra,base.group_user,1,1,1,1
+access_thong_ke_tai_san,thong_ke_tai_san.thong_ke_tai_san,model_thong_ke_tai_san,base.group_user,1,1,1,1

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_manh_dat_form" model="ir.ui.view">
+            <field name="name">manh_dat</field>
+            <field name="model">manh_dat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Mảnh đất</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="id_manh_dat"/>
+                            <field name="ngay_mua"/>
+                            <field name="gia_thanh"/>
+                            <field name="dia_chi"/>
+                            <field name="dien_tich"/>
+                            <field name="loai_tinh_trang"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_manh_dat_tree" model="ir.ui.view">
+            <field name="name">manh_dat</field>
+            <field name="model">manh_dat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_manh_dat"/>
+                            <field name="ngay_mua"/>
+                            <field name="gia_thanh"/>
+                            <field name="dia_chi"/>
+                            <field name="dien_tich"/>
+                            <field name="loai_tinh_trang"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="manh_dat_search">
+            <field name="model">manh_dat</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="id_manh_dat"/>
+                            <field name="ngay_mua"/>
+                            <field name="gia_thanh"/>
+                            <field name="dia_chi"/>
+                            <field name="dien_tich"/>
+                            <field name="loai_tinh_trang"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_manh_dat" model="ir.actions.act_window">
+            <field name="name">Mảnh đất</field>
+            <field name="res_model">manh_dat</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref = "manh_dat_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_bao_tri_sua_chua_form" model="ir.ui.view">
+            <field name="name">bao_tri_sua_chua</field>
+            <field name="model">bao_tri_sua_chua</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Bảo trì sửa chữa</div>
+                        <group col="4" string="Thông tin chung">
+                            <field name="ma_tai_san"/>
+                            <field name="ngay_bao_tri"/>
+                            <field name="mo_ta"/>
+                            <field name="chi_phi"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="trang_thai"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_bao_tri_sua_chua_tree" model="ir.ui.view">
+            <field name="name">bao_tri_sua_chua</field>
+            <field name="model">bao_tri_sua_chua</field>
+            <field name="arch" type="xml">
+                <tree string="Tình trạng" decoration-success="trang_thai == 'hoan_tat'"
+                                    decoration-info="trang_thai == 'dang_thuc_hien'"
+                                    decoration-primary="trang_thai == 'chua_thuc_hien'"  >
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_bao_tri"/>
+                            <field name="mo_ta"/>
+                            <field name="chi_phi"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="trang_thai"/>
+                </tree>
+            </field>
+        </record>
+        <record id="bao_tri_sua_chua_graph_view" model="ir.ui.view">
+            <field name="name">bao_tri_sua_chua</field>
+            <field name="model">bao_tri_sua_chua</field>
+            <field name="arch" type="xml">
+                <graph string="Dữ liệu tài sản" sample="1">
+                    <field name="trang_thai" />
+                    <field name="chi_phi" />
+                    <field name="ma_tai_san" invisible="1"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="bao_tri_sua_chua_search">
+            <field name="model">bao_tri_sua_chua</field>
+            <field name="arch" type="xml">
+                <search>
+                     <field name="ma_tai_san"/>
+                            <field name="ngay_bao_tri"/>
+                            <field name="mo_ta"/>
+                            <field name="chi_phi"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="trang_thai"/>
+                            <searchpanel>
+                                <field name="ma_tai_san" select="multi"/>
+                                <field name="nhan_vien_id" select="multi"/>
+                                <field name="trang_thai" select="multi"/>
+                            </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_bao_tri_sua_chua" model="ir.actions.act_window">
+            <field name="name">Bảo trì sửa chữa</field>
+            <field name="res_model">bao_tri_sua_chua</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="search_view_id" ref = "bao_tri_sua_chua_search"/>
+
+        </record>
+
+    </data>
+</odoo>
+        
+    
