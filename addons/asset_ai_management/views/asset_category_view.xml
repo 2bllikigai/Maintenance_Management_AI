@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="asset_category_tree" model="ir.ui.view">
+        <field name="name">asset.category.tree</field>
+        <field name="model">asset.category</field>
+        <field name="arch" type="xml">
+            <tree string="Danh mục tài sản">
+                <field name="name"/>
+                <field name="method_number"/>
+                <field name="journal_id"/>
+                <field name="asset_account_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="asset_category_form" model="ir.ui.view">
+        <field name="name">asset.category.form</field>
+        <field name="model">asset.category</field>
+        <field name="arch" type="xml">
+            <form string="Danh mục tài sản">
+                <sheet>
+                    <group>
+                        <group string="Thông tin chung">
+                            <field name="name" placeholder="Ví dụ: Thiết bị điện tử..."/>
+                            <field name="method_number"/>
+                            <field name="depreciation_method"/>
+                        </group>
+                        <group string="Cấu hình kế toán (Đề tài 5)">
+                            <field name="journal_id"/>
+                            <field name="asset_account_id"/>
+                            <field name="expense_account_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="asset_category_action" model="ir.actions.act_window">
+        <field name="name">Danh mục tài sản</field>
+        <field name="res_model">asset.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

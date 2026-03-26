@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="asset_request_tree" model="ir.ui.view">
+        <field name="name">asset.request.tree</field>
+        <field name="model">asset.request</field>
+        <field name="arch" type="xml">
+            <tree string="Yêu cầu mua sắm" decoration-info="state == 'draft'" decoration-success="state == 'purchased'">
+                <field name="name"/>
+                <field name="asset_name"/>
+                <field name="employee_id"/>
+                <field name="estimated_cost" sum="Tổng ngân sách dự kiến"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-primary="state == 'purchased'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="asset_request_form" model="ir.ui.view">
+        <field name="name">asset.request.form</field>
+        <field name="model">asset.request</field>
+        <field name="arch" type="xml">
+            <form string="Yêu cầu mua sắm">
+                <header>
+                    <button name="action_submit" string="Gửi yêu cầu" type="object" states="draft" class="oe_highlight"/>
+                    <button name="action_approve" string="Phê duyệt" type="object" states="submitted" class="oe_highlight" groups="account.group_account_manager"/>
+                    <button name="action_create_asset" string="Tạo tài sản &amp; AI" type="object" states="approved" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,purchased"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Người yêu cầu">
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="date_request"/>
+                        </group>
+                        <group string="Chi tiết tài sản">
+                            <field name="asset_name"/>
+                            <field name="category_id"/>
+                            <field name="estimated_cost"/>
+                        </group>
+                    </group>
+                    <field name="reason" placeholder="Tại sao cần mua tài sản này?"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="asset_request_action" model="ir.actions.act_window">
+        <field name="name">Yêu cầu mua sắm</field>
+        <field name="res_model">asset.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="asset_request_menu" name="Yêu cầu mua sắm" parent="asset_main_menu" action="asset_request_action" sequence="5"/>
+</odoo>

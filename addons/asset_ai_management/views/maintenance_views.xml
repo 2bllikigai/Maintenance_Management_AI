@@ -4,19 +4,15 @@
         <field name="name">maintenance.tree</field>
         <field name="model">asset.maintenance</field>
         <field name="arch" type="xml">
-            <tree string="Lịch sử bảo trì">
+            <tree string="Lịch sử bảo trì" decoration-info="state == 'draft'" decoration-success="state == 'done'">
                 <field name="asset_id"/>
                 <field name="maintenance_date"/>
-                <field name="maintenance_type" widget="badge" 
+                <field name="technician_id"/> <field name="maintenance_type" widget="badge" 
                        decoration-info="maintenance_type == 'inspection'" 
                        decoration-warning="maintenance_type == 'repair'"
                        decoration-success="maintenance_type == 'replacement'"/>
-                <field name="condition_after" widget="badge"
-                       decoration-success="condition_after == 'good'"
-                       decoration-warning="condition_after == 'normal'"
-                       decoration-danger="condition_after == 'bad'"/>
-                <field name="cost" sum="Tổng chi phí"/>
-                <field name="note"/>
+                <field name="degradation_level" string="Hao mòn (%)"/> <field name="cost" sum="Tổng chi phí"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
             </tree>
         </field>
     </record>
@@ -26,22 +22,40 @@
         <field name="model">asset.maintenance</field>
         <field name="arch" type="xml">
             <form string="Chi tiết bảo trì">
+                <header>
+                    <button name="action_done" string="Xác nhận hoàn thành" 
+                            type="object" class="oe_highlight" 
+                            attrs="{'invisible': [('state', '=', 'done')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="asset_id" options="{'no_create': True}" placeholder="Chọn tài sản..."/>
+                        </h1>
+                    </div>
                     <group>
-                        <group string="Thông tin tài sản">
-                            <field name="asset_id" options="{'no_create': True}"/>
-                            <field name="maintenance_date"/>
-                            <field name="maintenance_type"/>
+                        <group string="Kỹ thuật &amp; Nhân sự">
+                            <field name="maintenance_date" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="technician_id" options="{'no_create': True}" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="maintenance_type" attrs="{'readonly': [('state', '=', 'done')]}"/>
                         </group>
-                        <group string="Kết quả bảo trì">
-                            <field name="cost" widget="monetary"/>
-                            <field name="condition_after"/>
+                        <group string="Tài chính &amp; AI">
+                            <field name="cost" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="degradation_level" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="condition_after" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="move_id" attrs="{'invisible': [('state', '!=', 'done')]}"/>
                         </group>
                     </group>
-                    <group string="Ghi chú thêm">
-                        <field name="note" placeholder="Mô tả chi tiết..."/>
+                    <group string="Ghi chú chi tiết">
+                        <field name="note" nolabel="1" placeholder="Mô tả các linh kiện đã thay thế..."/>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -52,21 +66,22 @@
         <field name="arch" type="xml">
             <search string="Tìm kiếm bảo trì">
                 <field name="asset_id"/>
-                <field name="maintenance_type"/>
+                <field name="technician_id"/>
+                <filter string="Mới (Dự thảo)" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Đã hoàn thành" name="done" domain="[('state', '=', 'done')]"/>
+                <separator/>
                 <group expand="0" string="Gom nhóm theo">
                     <filter string="Tài sản" name="group_by_asset" context="{'group_by':'asset_id'}"/>
+                    <filter string="Kỹ thuật viên" name="group_by_tech" context="{'group_by':'technician_id'}"/>
                 </group>
             </search>
         </field>
     </record>
 
     <record id="maintenance_action" model="ir.actions.act_window">
-        <field name="name">Maintenance History</field>
+        <field name="name">Lịch sử bảo trì</field>
         <field name="res_model">asset.maintenance</field>
         <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Chưa có dữ liệu bảo trì.</p>
-        </field>
     </record>
 
     <menuitem id="maintenance_menu"
