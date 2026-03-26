@@ -1,12 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="asset_search" model="ir.ui.view">
+        <field name="name">asset.search</field>
+        <field name="model">asset.asset</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm tài sản">
+                <field name="name" string="Tên tài sản"/>
+                <field name="category_id" string="Danh mục"/>
+                <field name="employee_id" string="Nhân viên"/>
+                
+                <separator/>
+                <filter string="Cần bảo trì gấp" name="warning" domain="[('maintenance_warning', '=', True)]"/>
+                <filter string="Đang hỏng" name="broken" name="is_broken" domain="[('maintenance_status', '=', 'broken')]"/>
+                
+                <separator/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Danh mục" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Trạng thái bảo trì" name="group_status" context="{'group_by': 'maintenance_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="asset_tree" model="ir.ui.view">
         <field name="name">asset.tree</field>
         <field name="model">asset.asset</field>
         <field name="arch" type="xml">
             <tree decoration-danger="maintenance_warning == True">
                 <field name="name"/>
-                <field name="category_id"/> <field name="employee_id"/>
-                <field name="technician_id"/> <field name="original_value" sum="Tổng giá trị gốc"/>
+                <field name="category_id"/>
+                <field name="employee_id"/>
+                <field name="technician_id"/>
+                <field name="original_value" sum="Tổng giá trị gốc"/>
                 <field name="current_value" sum="Tổng giá trị hiện tại"/>
                 <field name="predicted_next_maintenance" widget="remaining_days"/>
                 <field name="maintenance_status" widget="badge" 
@@ -22,45 +47,29 @@
         <field name="name">asset.form</field>
         <field name="model">asset.asset</field>
         <field name="arch" type="xml">
-            <form string="Asset">
+            <form string="Tài sản">
                 <header>
-                    <button name="compute_depreciation_board" 
-                            string="Tính kế hoạch khấu hao" 
-                            type="object" 
-                            class="oe_highlight"
-                            attrs="{'invisible': [('original_value', '&lt;=', 0)]}"/>
+                    <button name="compute_depreciation_board" string="Tính kế hoạch khấu hao" type="object" class="oe_highlight" attrs="{'invisible': [('original_value', '&lt;=', 0)]}"/>
                     <field name="maintenance_status" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <div class="alert alert-danger text-center o_form_header" role="alert" attrs="{'invisible': [('maintenance_warning', '=', False)]}">
-                        <strong>Cảnh báo AI:</strong> Tài sản này sắp đến hạn bảo trì! Vui lòng kiểm tra kỹ thuật.
+                        <strong>Cảnh báo AI:</strong> Tài sản này sắp đến hạn bảo trì!
                     </div>
-
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
                         <h1><field name="name" placeholder="Ví dụ: Laptop Dell XPS 15..."/></h1>
                     </div>
-
                     <group>
                         <group string="Quản lý &amp; Nhân sự">
                             <field name="category_id" options="{'no_create': True}"/>
                             <field name="employee_id" options="{'no_create_edit': True}"/>
                             <field name="technician_id" options="{'no_create_edit': True}"/>
-                            <field name="condition"/>
                         </group>
                         <group string="Tài chính &amp; Kế toán">
                             <field name="original_value"/>
                             <field name="current_value" readonly="1"/>
-                            <field name="journal_id" groups="account.group_account_readonly"/>
-                            <field name="asset_account_id" groups="account.group_account_readonly"/>
-                            <field name="expense_account_id" groups="account.group_account_readonly"/>
-                        </group>
-                        <group string="Dự báo AI &amp; Trạng thái">
-                            <field name="predicted_next_maintenance" readonly="1"/>
-                            <field name="maintenance_warning" invisible="1"/>
                         </group>
                     </group>
-
                     <notebook>
                         <page string="Kế hoạch khấu hao">
                             <field name="depreciation_line_ids" readonly="1">
@@ -69,29 +78,21 @@
                                     <field name="amount" sum="Tổng khấu hao"/>
                                     <field name="remaining_value"/>
                                     <field name="is_posted" widget="boolean_toggle"/>
-                                    <field name="move_id"/>
                                 </tree>
                             </field>
                         </page>
-
                         <page string="Lịch sử bảo trì">
                             <field name="maintenance_ids" context="{'default_asset_id': active_id}">
                                 <tree editable="bottom">
                                     <field name="maintenance_date"/>
-                                    <field name="technician_id"/>
                                     <field name="maintenance_type"/>
                                     <field name="cost" sum="Tổng chi phí"/>
-                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
+                                    <field name="state" widget="badge"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="activity_ids"/>
-                    <field name="message_ids"/>
-                </div>
             </form>
         </field>
     </record>
@@ -100,18 +101,13 @@
         <field name="name">Tài sản doanh nghiệp</field>
         <field name="res_model">asset.asset</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="asset_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Chưa có tài sản nào!</p>
-            <p>Hãy tạo tài sản đầu tiên để AI bắt đầu theo dõi hỏng hóc.</p>
         </field>
     </record>
 
-    <menuitem id="asset_root_menu" name="Quản lý Tài sản AI" sequence="10" web_icon="asset_management,static/description/icon.png"/>
-    
+    <menuitem id="asset_root_menu" name="Quản lý Tài sản AI" sequence="10"/>
     <menuitem id="asset_main_menu" name="Tài sản" parent="asset_root_menu" sequence="10"/>
     <menuitem id="asset_child_menu" name="Danh sách tài sản" parent="asset_main_menu" action="asset_action" sequence="10"/>
-    
-    <menuitem id="asset_config_menu" name="Cấu hình" parent="asset_root_menu" sequence="100"/>
-    <menuitem id="asset_category_menu" name="Danh mục tài sản" parent="asset_config_menu" action="asset_category_action" sequence="10"/>
-
 </odoo>

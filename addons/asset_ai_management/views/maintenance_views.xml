@@ -7,11 +7,13 @@
             <tree string="Lịch sử bảo trì" decoration-info="state == 'draft'" decoration-success="state == 'done'">
                 <field name="asset_id"/>
                 <field name="maintenance_date"/>
-                <field name="technician_id"/> <field name="maintenance_type" widget="badge" 
+                <field name="technician_id"/> 
+                <field name="maintenance_type" widget="badge" 
                        decoration-info="maintenance_type == 'inspection'" 
                        decoration-warning="maintenance_type == 'repair'"
                        decoration-success="maintenance_type == 'replacement'"/>
-                <field name="degradation_level" string="Hao mòn (%)"/> <field name="cost" sum="Tổng chi phí"/>
+                <field name="degradation_level" string="Hao mòn (%)"/> 
+                <field name="cost" sum="Tổng chi phí"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
             </tree>
         </field>
@@ -65,8 +67,8 @@
         <field name="model">asset.maintenance</field>
         <field name="arch" type="xml">
             <search string="Tìm kiếm bảo trì">
-                <field name="asset_id"/>
-                <field name="technician_id"/>
+                <field name="asset_id" string="Tài sản"/>
+                <field name="technician_id" string="Kỹ thuật viên"/>
                 <filter string="Mới (Dự thảo)" name="draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Đã hoàn thành" name="done" domain="[('state', '=', 'done')]"/>
                 <separator/>
@@ -82,6 +84,9 @@
         <field name="name">Lịch sử bảo trì</field>
         <field name="res_model">asset.maintenance</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="maintenance_search"/> <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có bản ghi bảo trì nào!</p>
+        </field>
     </record>
 
     <menuitem id="maintenance_menu"
