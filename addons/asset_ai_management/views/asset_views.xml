@@ -5,18 +5,16 @@
         <field name="model">asset.asset</field>
         <field name="arch" type="xml">
             <search string="Tìm kiếm tài sản">
-                <field name="name" string="Tên tài sản"/>
-                <field name="category_id" string="Danh mục"/>
-                <field name="employee_id" string="Nhân viên"/>
-                
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="employee_id"/>
                 <separator/>
-                <filter string="Cần bảo trì gấp" name="warning" domain="[('maintenance_warning', '=', True)]"/>
-                <filter string="Đang hỏng" name="broken" name="is_broken" domain="[('maintenance_status', '=', 'broken')]"/>
-                
+                <filter string="Cần bảo trì gấp" name="filter_warning" domain="[('maintenance_warning', '=', True)]"/>
+                <filter string="Đang hỏng" name="filter_broken" domain="[('maintenance_status', '=', 'broken')]"/>
                 <separator/>
                 <group expand="0" string="Nhóm theo">
-                    <filter string="Danh mục" name="group_category" context="{'group_by': 'category_id'}"/>
-                    <filter string="Trạng thái bảo trì" name="group_status" context="{'group_by': 'maintenance_status'}"/>
+                    <filter string="Danh mục" name="group_by_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Trạng thái" name="group_by_status" context="{'group_by': 'maintenance_status'}"/>
                 </group>
             </search>
         </field>
@@ -53,6 +51,8 @@
                     <field name="maintenance_status" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <field name="maintenance_warning" invisible="1"/>
+
                     <div class="alert alert-danger text-center o_form_header" role="alert" attrs="{'invisible': [('maintenance_warning', '=', False)]}">
                         <strong>Cảnh báo AI:</strong> Tài sản này sắp đến hạn bảo trì!
                     </div>
@@ -102,12 +102,5 @@
         <field name="res_model">asset.asset</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="asset_search"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Chưa có tài sản nào!</p>
-        </field>
     </record>
-
-    <menuitem id="asset_root_menu" name="Quản lý Tài sản AI" sequence="10"/>
-    <menuitem id="asset_main_menu" name="Tài sản" parent="asset_root_menu" sequence="10"/>
-    <menuitem id="asset_child_menu" name="Danh sách tài sản" parent="asset_main_menu" action="asset_action" sequence="10"/>
 </odoo>

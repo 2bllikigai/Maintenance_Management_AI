@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import date, timedelta
 from odoo import models, fields, api, _
 from ..ai.maintenance_predict import predict_next_maintenance
@@ -7,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class Asset(models.Model):
     _name = 'asset.asset'
-    _inherit = ['mail.thread', 'mail.activity.mixin'] # Hỗ trợ Log và Chat bên dưới Form
+    _inherit = ['mail.thread', 'mail.activity.mixin'] 
     _description = 'Tài sản'
 
     name = fields.Char(string="Tên tài sản", required=True, tracking=True)
@@ -18,16 +19,15 @@ class Asset(models.Model):
     original_value = fields.Float(string="Giá trị gốc", tracking=True)
     current_value = fields.Float(string="Giá trị hiện tại", tracking=True)
     
-    # Các trường kế toán lấy tự động từ danh mục
     journal_id = fields.Many2one('account.journal', string="Sổ nhật ký", domain=[('type', '=', 'general')])
     asset_account_id = fields.Many2one('account.account', string="Tài khoản tài sản")
     expense_account_id = fields.Many2one('account.account', string="Tài khoản chi phí bảo trì")
 
-    # --- KẾT NỐI NHÂN SỰ (Yêu cầu bắt buộc) ---
+    # --- KẾT NỐI NHÂN SỰ ---
     employee_id = fields.Many2one('hr.employee', string="Nhân viên sử dụng", help="Người giữ máy")
     technician_id = fields.Many2one('hr.employee', string="Kỹ thuật viên phụ trách", help="Người đi sửa máy")
 
-    # --- TRẠNG THÁI VÀ TÌNH TRẠNG ---
+    # --- TRẠNG THÁI ---
     condition = fields.Selection([
         ('good', 'Tốt'),
         ('normal', 'Bình thường'),
@@ -53,7 +53,13 @@ class Asset(models.Model):
         tracking=True
     )
 
-    maintenance_warning = fields.Boolean(string="Cảnh báo bảo trì", compute="_compute_warning")
+    # ĐÃ SỬA: Thêm store=True để sửa lỗi Unsearchable field
+    maintenance_warning = fields.Boolean(
+        string="Cảnh báo bảo trì", 
+        compute="_compute_warning",
+        store=True,
+        tracking=True
+    )
 
     # ==========================
     # LOGIC NGHIỆP VỤ & TỰ ĐỘNG HÓA
@@ -61,7 +67,6 @@ class Asset(models.Model):
 
     @api.onchange('category_id')
     def _onchange_category_id(self):
-        """Tự động lấy thông tin tài chính từ Danh mục khi chọn"""
         if self.category_id:
             self.journal_id = self.category_id.journal_id
             self.asset_account_id = self.category_id.asset_account_id
@@ -70,11 +75,10 @@ class Asset(models.Model):
     def compute_depreciation_board(self):
         """Tạo bảng kế hoạch khấu hao hàng tháng"""
         for asset in self:
-            asset.depreciation_line_ids.unlink() # Xóa dòng cũ
+            asset.depreciation_line_ids.unlink() 
             if not asset.category_id or asset.category_id.method_number <= 0:
                 continue
 
-            # Công thức: Khấu hao tháng = Giá trị gốc / Tổng số tháng khấu hao
             dep_amount = asset.original_value / asset.category_id.method_number
             current_date = fields.Date.today()
             rem_value = asset.original_value
@@ -91,7 +95,6 @@ class Asset(models.Model):
 
     @api.depends('original_value', 'current_value', 'condition', 'maintenance_ids')
     def _compute_maintenance(self):
-        """Hàm gọi AI dự đoán hỏng hóc"""
         for record in self:
             record.predicted_next_maintenance = predict_next_maintenance(
                 record,
@@ -100,7 +103,6 @@ class Asset(models.Model):
 
     @api.depends('predicted_next_maintenance', 'technician_id')
     def _compute_warning(self):
-        """Cảnh báo và tự động giao việc cho nhân sự"""
         today = date.today()
         for record in self:
             if record.predicted_next_maintenance:
@@ -127,18 +129,16 @@ class Asset(models.Model):
                 record.maintenance_warning = False
 
     # ==========================
-    # HÀM CHẠY CRON (SCHEDULED ACTIONS)
+    # HÀM CHẠY CRON
     # ==========================
 
     @api.model
     def cron_predict_maintenance(self):
-        """AI cập nhật dự báo hàng ngày"""
         _logger.info("Cron AI: Cập nhật dự báo bảo trì...")
         self.search([])._compute_maintenance()
 
     @api.model
     def cron_post_depreciation(self):
-        """Kế toán: Tự động trích khấu hao hàng tháng"""
         _logger.info("Cron Kế toán: Bắt đầu trích khấu hao...")
         today = fields.Date.today()
         lines = self.env['asset.depreciation.line'].search([
